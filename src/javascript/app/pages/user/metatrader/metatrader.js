@@ -4,6 +4,7 @@ const Client             = require('../../../base/client');
 const BinarySocket       = require('../../../base/socket');
 const setCurrencies      = require('../../../common/currency').setCurrencies;
 const Validation         = require('../../../common/form_validation');
+const Mt5GoToDerivBanner = require('../../../common/mt5_go_to_deriv_banner');
 const localize           = require('../../../../_common/localize').localize;
 const State              = require('../../../../_common/storage').State;
 const applyToAllElements = require('../../../../_common/utility').applyToAllElements;
@@ -24,6 +25,7 @@ const MetaTrader = (() => {
             await BinarySocket.send({ trading_servers: 1, platform: 'mt5' });
 
             if (isEligible()) {
+                Mt5GoToDerivBanner.onLoad();
                 if (Client.get('is_virtual')) {
                     addAllAccounts();
                 } else {

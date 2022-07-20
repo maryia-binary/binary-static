@@ -352,11 +352,15 @@
     }
 }
 
-#multiplier_banner_container {
+#multiplier_banner_container, #mt5_go_to_deriv_banner_container {
     position: relative;
 
     &.has_margin {
-        margin-bottom: 30px;
+        margin-bottom: 4rem;
+
+        &:not(#mt5_go_to_deriv_banner_container) {
+            margin-bottom: 3rem;
+        }
     }
     a {
         position: relative;

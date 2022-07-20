@@ -5,6 +5,7 @@ import {
     SubmitButton,
 }                 from '../../_common/components/forms.jsx';
 import Loading    from '../../_common/components/loading.jsx';
+import Mt5GoToDerivBanner from '../../_common/components/mt5_go_to_deriv_banner.jsx';
 
 /* eslint-disable react/jsx-no-target-blank */
 const AccountDesc = ({ title, description, account_type, landing_company_short, items, id = undefined }) => {
@@ -69,6 +70,9 @@ const CashierDesc = ({ title, desc, arrow_direction }) => (
 
 const Metatrader = () => (
     <React.Fragment>
+        <div className='container'>
+            <Mt5GoToDerivBanner has_margin />
+        </div>
         <div className='static_full'>
             <h1>{it.L('MetaTrader 5 dashboard')}</h1>
         </div>
