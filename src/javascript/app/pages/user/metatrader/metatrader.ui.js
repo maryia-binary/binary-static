@@ -370,45 +370,12 @@ const MetaTraderUI = (() => {
                     +getAccountsInfo(acc_type).info.balance);
                 $acc_item.find('.mt-balance').html(mt_balance);
                 $action.find('.mt5-balance').html(mt_balance);
-                const $add_region_btn = $container.find('#btn_add_region');
-                $add_region_btn.setVisibility(
-                    getAvailableServers(false, acc_type).length > 0 && !getAccountsInfo(acc_type).is_demo,
-                );
-                if (disabled_signup_types.real) {
-                    $add_region_btn.addClass('button-disabled');
-                }
             }
             // disable MT5 account opening if created all available accounts
             if (Object.keys(accounts_info).every(type =>
                 getAccountsInfo(type).info || !MetaTraderConfig.hasTradeServers(type))) {
                 $container.find('.act_new_account').remove();
             }
-
-            // Add more trade servers button.
-            $container.find('#btn_add_region').click(() => {
-                if (disabled_signup_types.real) {
-                    return;
-                }
-                const $back_button = $form.find('#view_3 .btn-back');
-                const $cancel_button = $form.find('#view_3 .btn-cancel');
-                const account_type = Client.get('mt5_account');
-                const num_servers = populateTradingServers();
-
-                loadAction('new_account', account_type);
-                $form.find('button[type="submit"]').attr('acc_type', account_type);
-                $cancel_button.setVisibility(1);
-                $back_button.setVisibility(0);
-
-                if (num_servers.supported > 1){
-                    displayStep(2);
-                } else {
-                    displayStep(3);
-                }
-                displayAccountDescription('real_gaming_financial');
-
-                $.scrollTo($container.find('.acc-actions'), 300, { offset: -10 });
-            });
-
         } else {
             $acc_item.setVisibility(0);
         }
@@ -494,11 +461,6 @@ const MetaTraderUI = (() => {
             if (current_action_ui !== 'new_account') {
                 $container.find('.has-account').setVisibility(1);
             }
-
-            // we need to add a small delay to let the servers details be filled before we check their availability
-            setTimeout(() => {
-                $container.find('#btn_add_region').setVisibility(getAvailableServers(false, MetaTraderConfig.getCleanAccType(acc_type, 2)).length > 0 && !is_demo);
-            }, 50);
         } else {
             $detail.find('.acc-info, .acc-actions').setVisibility(0);
         }

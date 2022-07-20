@@ -127,10 +127,7 @@ const Metatrader = () => (
                                 <div className='balance gr-padding-10' data='balance' />
                             </div>
                         </div>
-                        <div className='add_region'>
-                            <a id='btn_add_region' className='button-secondary invisible' href='javascript:;'>
-                                <span>{it.L('+ Add region')}</span>
-                            </a>
+                        <div className='trade-button-container'>
                             <a className='button mt5-web-link' target='_blank' rel='noopener noreferrer'>
                                 <span>{it.L('Trade on web terminal')}</span>
                             </a>

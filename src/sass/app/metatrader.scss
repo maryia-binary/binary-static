@@ -279,14 +279,10 @@
                 border-bottom: none;
             }
         }
-        .add_region {
+        .trade-button-container {
             position: absolute;
             bottom: 20px;
             right: 20px;
-
-            #btn_add_region {
-                margin-right: 16px;
-            }
         }
     }
     .acc-actions {
@@ -538,7 +534,7 @@
         #account_details {
             min-height: auto;
 
-            .add_region {
+            .trade-button-container {
                 position: unset;
                 display: flex;
                 justify-content: flex-end;
