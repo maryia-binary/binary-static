@@ -5,9 +5,8 @@ const Mt5GoToDerivBanner = (() => {
     const classname = 'mt5_go_to_deriv_banner';
 
     const onLoad = () => {
-        getElementById(`${classname}_link`).href = `https://app.deriv.com/mt5?lang=${getLanguage()}`;
-        const mt5_banner_container = getElementById(`${classname}_container`);
-        mt5_banner_container.classList.remove('invisible');
+        getElementById(`${classname}-link`).href = `https://app.deriv.com/mt5?lang=${getLanguage()}`;
+        getElementById(`${classname}_container`).setVisibility(1);
     };
 
     return { onLoad };
