@@ -8,6 +8,9 @@ const getTransferFee   = require('../../../../_common/base/currency_base').getTr
 const getElementById   = require('../../../../_common/common_functions').getElementById;
 const localize         = require('../../../../_common/localize').localize;
 const Password         = require('../../../../_common/check_password');
+const BinaryPjax       = require('../../../base/binary_pjax');
+const { urlFor }       = require('../../../../_common/url');
+const getLanguage      = require('../../../../_common/language').get;
 const State            = require('../../../../_common/storage').State;
 const urlForStatic     = require('../../../../_common/url').urlForStatic;
 const getHashValue     = require('../../../../_common/url').getHashValue;
@@ -1268,6 +1271,19 @@ const MetaTraderUI = (() => {
         });
     };
 
+    const showGoToDerivAlertPopup = (has_mt5_accounts) => {
+        Dialog.confirm({
+            id                  : 'go-to-deriv-popup',
+            localized_title     : localize('Go to Deriv to add an MT5 account'),
+            localized_message   : localize('You\'ll be able to log in to Deriv using your Binary.com credentials.'),
+            cancel_text         : has_mt5_accounts ? localize('Cancel') : localize('Back'),
+            ok_text             : localize('Go to Deriv'),
+            onAbort             : () => { BinaryPjax.load(urlFor('trading')); },
+            onConfirm           : () => { window.location = `https://app.deriv.com/mt5?lang=${getLanguage()}`; },
+            keep_open_on_confirm: true,
+        });
+    };
+
     return {
         init,
         setAccountType,
@@ -1289,6 +1305,7 @@ const MetaTraderUI = (() => {
         setTopupLoading,
         getTradingPasswordConfirmVisibility,
         setTradingPasswordConfirmVisibility,
+        showGoToDerivAlertPopup,
         showNewAccountConfirmationPopup,
         shouldSetTradingPassword,
 

@@ -25,7 +25,6 @@ const MetaTrader = (() => {
             await BinarySocket.send({ trading_servers: 1, platform: 'mt5' });
 
             if (isEligible()) {
-                Mt5GoToDerivBanner.onLoad();
                 if (Client.get('is_virtual')) {
                     addAllAccounts();
                 } else {
@@ -52,7 +51,12 @@ const MetaTrader = (() => {
                 MetaTraderUI.displayPageError(response.error.message);
                 return;
             }
-
+            const has_mt5_accounts = response.mt5_login_list.length > 0;
+            if (!has_mt5_accounts) {
+                MetaTraderUI.showGoToDerivAlertPopup(has_mt5_accounts);
+            } else {
+                Mt5GoToDerivBanner.onLoad();
+            }
             // const valid_account = Object.values(response.mt5_login_list).filter(acc => !acc.error);
 
             // if (has_multi_mt5_accounts && (has_demo_error || has_real_error)) {
