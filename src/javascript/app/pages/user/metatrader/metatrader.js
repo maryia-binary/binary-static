@@ -52,13 +52,6 @@ const MetaTrader = (() => {
                 MetaTraderUI.displayPageError(response.error.message);
                 return;
             }
-            const filtered_mt5_login_list = getFilteredMt5LoginList(response.mt5_login_list);
-            const has_mt5_accounts = filtered_mt5_login_list.length > 0;
-            if (!has_mt5_accounts) {
-                MetaTraderUI.showGoToDerivAlertPopup(has_mt5_accounts);
-            } else {
-                Mt5GoToDerivBanner.onLoad();
-            }
             // const valid_account = Object.values(response.mt5_login_list).filter(acc => !acc.error);
 
             // if (has_multi_mt5_accounts && (has_demo_error || has_real_error)) {
@@ -75,6 +68,7 @@ const MetaTrader = (() => {
             const trading_servers = State.getResponse('trading_servers');
             // for legacy clients on the real01 server, real01 server is not going to be offered in trading servers
             // but we need to build their object in accounts_info or they can't view their legacy account
+            const filtered_mt5_login_list = getFilteredMt5LoginList(response.mt5_login_list);
             filtered_mt5_login_list.forEach((mt5_login) => {
 
                 if (mt5_login.error) {
@@ -104,6 +98,13 @@ const MetaTrader = (() => {
             });
 
             getAllAccountsInfo(response);
+
+            const has_mt5_accounts = filtered_mt5_login_list.length > 0;
+            if (!has_mt5_accounts) {
+                MetaTraderUI.showGoToDerivAlertPopup(has_mt5_accounts);
+            } else {
+                Mt5GoToDerivBanner.onLoad();
+            }
         });
     };
 
