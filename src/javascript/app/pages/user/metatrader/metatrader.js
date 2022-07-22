@@ -13,10 +13,11 @@ const isEuCountry        = require('../../../common/country_base').isEuCountry;
 const MetaTrader = (() => {
     let show_new_account_popup = true;
 
-    const accounts_info   = MetaTraderConfig.accounts_info;
-    const actions_info    = MetaTraderConfig.actions_info;
-    const fields          = MetaTraderConfig.fields;
-    const getAccountsInfo = MetaTraderConfig.getAccountsInfo;
+    const accounts_info           = MetaTraderConfig.accounts_info;
+    const actions_info            = MetaTraderConfig.actions_info;
+    const fields                  = MetaTraderConfig.fields;
+    const getAccountsInfo         = MetaTraderConfig.getAccountsInfo;
+    const getFilteredMt5LoginList = MetaTraderConfig.getFilteredMt5LoginList;
 
     const onLoad = () => {
         BinarySocket.send({ statement: 1, limit: 1 });
@@ -51,7 +52,8 @@ const MetaTrader = (() => {
                 MetaTraderUI.displayPageError(response.error.message);
                 return;
             }
-            const has_mt5_accounts = response.mt5_login_list.length > 0;
+            const filtered_mt5_login_list = getFilteredMt5LoginList(response.mt5_login_list);
+            const has_mt5_accounts = filtered_mt5_login_list.length > 0;
             if (!has_mt5_accounts) {
                 MetaTraderUI.showGoToDerivAlertPopup(has_mt5_accounts);
             } else {
@@ -73,7 +75,7 @@ const MetaTrader = (() => {
             const trading_servers = State.getResponse('trading_servers');
             // for legacy clients on the real01 server, real01 server is not going to be offered in trading servers
             // but we need to build their object in accounts_info or they can't view their legacy account
-            response.mt5_login_list.forEach((mt5_login) => {
+            filtered_mt5_login_list.forEach((mt5_login) => {
 
                 if (mt5_login.error) {
                     let message = mt5_login.error.message_to_client;
@@ -321,7 +323,8 @@ const MetaTrader = (() => {
                 const req = makeRequestObject(acc_type, action);
                 if (action === 'new_account' && MetaTraderUI.shouldSetTradingPassword()) {
                     const { mt5_login_list } = await BinarySocket.send({ mt5_login_list: 1 });
-                    const has_mt5_account = mt5_login_list.length > 0;
+                    const filtered_mt5_login_list = getFilteredMt5LoginList(mt5_login_list);
+                    const has_mt5_account = filtered_mt5_login_list.length > 0;
                     if (has_mt5_account && !MetaTraderUI.getTradingPasswordConfirmVisibility()) {
                         MetaTraderUI.setTradingPasswordConfirmVisibility(1);
                         MetaTraderUI.enableButton(action);
@@ -412,8 +415,9 @@ const MetaTrader = (() => {
             return;
         }
 
-        const has_multi_mt5_accounts = (response.mt5_login_list.length > 1);
-        const checkAccountTypeErrors = (type) => Object.values(response.mt5_login_list).filter(account => {
+        const filtered_mt5_login_list = getFilteredMt5LoginList(response.mt5_login_list);
+        const has_multi_mt5_accounts = (filtered_mt5_login_list.length > 1);
+        const checkAccountTypeErrors = (type) => Object.values(filtered_mt5_login_list).filter(account => {
             if (account.error) {
                 return account.error.details.account_type === type;
             }
@@ -434,13 +438,13 @@ const MetaTrader = (() => {
         };
 
         // Add all unavailable accounts to the account list DOM
-        if (response.mt5_login_list.some(acc => acc.error)) {
+        if (filtered_mt5_login_list.some(acc => acc.error)) {
             addUnavailableAccounts(response);
             MetaTraderUI.populateAccountList();
         }
 
         // Update account info
-        response.mt5_login_list.forEach((account) => {
+        filtered_mt5_login_list.forEach((account) => {
             const market_type = account.market_type === 'synthetic' ? 'gaming' : account.market_type;
             let acc_type = `${account.account_type}_${market_type}_${account.sub_account_type}`;
             const acc_type_server = `${acc_type}_${account.server}`;
