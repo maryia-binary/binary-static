@@ -70,7 +70,7 @@ const CashierDesc = ({ title, desc, arrow_direction }) => (
 
 const Metatrader = () => (
     <React.Fragment>
-        <div className='container'>
+        <div className='container mt5_go_to_deriv_banner_wrapper'>
             <Mt5GoToDerivBanner has_margin />
         </div>
         <div className='static_full'>

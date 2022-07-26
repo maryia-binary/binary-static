@@ -628,6 +628,11 @@ tbody#instruments > tr > td {
     width: 33%;
 }
 
+.mt5_go_to_deriv_banner_wrapper.container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 #password-change-email-popup, #success_reset_trading_pw_dialog {
     #dialog_content {
         max-width: 480px;
