@@ -534,7 +534,7 @@
     position: relative;
     box-sizing: border-box;
     display: flex;
-    width: 940px;
+    width: 100%;
     height: 100px;
     align-items: center;
     padding-left: 24px;
@@ -544,11 +544,9 @@
         margin-bottom: 40px;
     }
     @media only screen and (max-width: 768px) {
-        width: 340px;
         height: 70px;
         justify-content: space-between;
         padding: 15px 8px;
-        margin: 0 auto;
     }
 
     &:after {
@@ -559,15 +557,18 @@
         clear: unset;
         left: 0;
         top: 0;
-        border-radius: 4px 0 0 4px;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
         border-bottom: 100px solid $COLOR_ORANGE;
         border-right: 50px solid transparent;
-        border-left: 188px solid $COLOR_ORANGE;
+        border-left: 1px solid $COLOR_ORANGE;
+        width: 19.9%;
 
         @media only screen and (max-width: 768px) {
             border-bottom: 70px solid $COLOR_ORANGE;
             border-right: 26.5px solid transparent;
-            border-left: 220px solid $COLOR_ORANGE;
+            border-left: 1px solid $COLOR_ORANGE;
+            width: 64.41%;
         }
     }
     &:before {
@@ -577,13 +578,13 @@
         border-collapse: unset;
         right: 0;
         top: 0;
-        width: 766px;
+        width: 81.48%;
         height: 100%;
         border-radius: 0 4px 4px 0;
         background-color: $COLOR_LIGHT_GRAY;
 
         @media only screen and (max-width: 768px) {
-            width: 136px;
+            width: 40%;
         }
     }
     .mt5_go_to_deriv_banner {
@@ -624,7 +625,9 @@
             cursor: pointer;
             text-decoration: none;
             z-index: 2;
-            padding: 8px 25px;
+            width: 138px;
+            text-align: center;
+            padding: 8px 0;
             line-height: 22px;
             color: $COLOR_WHITE;
             border-radius: 4px;
@@ -634,7 +637,8 @@
             margin-left: 26px;
 
             @media only screen and (max-width: 768px) {
-                padding: 1px 10.5px;
+                width: 90px;
+                padding: 1px 0;
                 font-size: $FONT_SIZE_S;
                 margin-left: unset;
             }
