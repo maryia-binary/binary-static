@@ -1184,10 +1184,13 @@ const MetaTraderUI = (() => {
 
         BinarySocket.wait('landing_company').then((response) => {
             const landing_company_name = getAccountsInfo(acc_type).market_type === 'synthetic' ? 'mt_gaming_company' : `mt_${getAccountsInfo(acc_type).market_type}_company`;
-            const company = response.landing_company[landing_company_name][getAccountsInfo(acc_type).sub_account_type];
-
+            const company = response.landing_company[landing_company_name][getAccountsInfo(acc_type)
+                .sub_account_type] || {};
             $icon.attr({
-                'data-balloon'       : `${localize('Counterparty')}: ${company.name}, ${localize('Jurisdiction')}: ${company.country}`,
+                'data-balloon': `${localize('Counterparty')}: ${
+                    company.name ||
+                    getAccountsInfo(acc_type).company_data.name
+                }, ${localize('Jurisdiction')}: ${company.country || getAccountsInfo(acc_type).company_data.country}`,
                 'data-balloon-length': 'large',
             });
         });
