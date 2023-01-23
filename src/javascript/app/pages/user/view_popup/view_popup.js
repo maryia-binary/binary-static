@@ -90,6 +90,7 @@ const ViewPopup = (() => {
         let contract_type_display;
 
         const initContractTypeDisplay = () => ({
+            ACCU        : localize('Accumulator'),
             ASIANU      : localize('Asian Up'),
             ASIAND      : localize('Asian Down'),
             CALL        : localize('Higher'),
