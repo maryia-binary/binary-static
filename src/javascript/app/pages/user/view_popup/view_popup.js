@@ -26,6 +26,7 @@ const ViewPopup = (() => {
         is_sell_clicked,
         is_sold_before_start,
         is_sold,
+        is_turbos_contract,
         is_vanilla_contract,
         multiplier,
         sell_text_updated,
@@ -76,9 +77,10 @@ const ViewPopup = (() => {
         is_sold_before_start = contract.sell_time && contract.sell_time < contract.date_start;
         // Lookback multiplier value
         multiplier = contract.multiplier;
-        is_multiplier_contract = /MULTDOWN|MULTUP/.test(contract.contract_type);
-        is_vanilla_contract = /VANILLA/.test(contract.contract_type);
         is_accumulator_contract = /ACCU/.test(contract.contract_type);
+        is_multiplier_contract = /MULTDOWN|MULTUP/.test(contract.contract_type);
+        is_turbos_contract = /TURBOS/.test(contract.contract_type);
+        is_vanilla_contract = /VANILLA/.test(contract.contract_type);
 
         if (contract && document.getElementById(wrapper_id)) {
             update();
@@ -124,6 +126,8 @@ const ViewPopup = (() => {
             RUNLOW         : localize('Only Downs'),
             TICKHIGH       : localize('High Tick'),
             TICKLOW        : localize('Low Tick'),
+            TURBOSLONG     : localize('Long'),
+            TURBOSSHORT    : localize('Short'),
             UPORDOWN       : localize('Goes Outside'),
             VANILLALONGCALL: localize('Call'),
             VANILLALONGPUT : localize('Put'),
@@ -262,7 +266,7 @@ const ViewPopup = (() => {
         }
 
         const is_unsupported_contract = !contract.is_sold &&
-            (is_accumulator_contract || is_multiplier_contract ||
+            (is_accumulator_contract || is_multiplier_contract || is_turbos_contract ||
             is_vanilla_contract || Callputspread.isCallputspread(contract.contract_type));
         if (!is_started) {
             containerSetText('trade_details_entry_spot > span', '-');
